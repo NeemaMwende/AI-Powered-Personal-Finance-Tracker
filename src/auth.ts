@@ -7,4 +7,3 @@ export const { auth, handlers, signIn, signOut } = NextAuth ({
   ],
 });
 
-// export default NextAuth(authOptions);
