@@ -8,6 +8,7 @@ interface SidebarItemProps {
   label: string;
   href: string;
   isActive?: boolean;
+  condensed?: boolean;
 }
 
 const SidebarItem: FC<SidebarItemProps> = ({
@@ -15,6 +16,7 @@ const SidebarItem: FC<SidebarItemProps> = ({
   label,
   href,
   isActive = false,
+  condensed = false,
 }) => {
   return (
     <Link
@@ -27,7 +29,7 @@ const SidebarItem: FC<SidebarItemProps> = ({
       )}
     >
       {icon}
-      {label}
+      {!condensed && <span className="text-sm">{label}</span>}
     </Link>
   );
 };

@@ -27,26 +27,30 @@ const TransactionsList: FC<TransactionsListProps> = ({
 }) => {
   return (
     <Card className="h-full">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">Transactions</CardTitle>
+      <CardHeader className="pb-0 px-4 py-3 md:px-6 md:py-4">
+        <CardTitle className="text-xs sm:text-sm font-medium">Transactions</CardTitle>
       </CardHeader>
-      <CardContent className="px-2">
-        <div className="space-y-1">
+      <CardContent className="px-2 py-2 md:py-3">
+        <div className="space-y-0.5 sm:space-y-1">
           {transactions.map((transaction) => (
             <div
               key={transaction.id}
-              className="flex items-center justify-between p-2 rounded-md hover:bg-gray-50"
+              className="flex items-center justify-between p-1.5 sm:p-2 rounded-md hover:bg-gray-50"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                  {transaction.icon}
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                  {transaction.icon ? (
+                    <ShoppingBag size={12} className="sm:size-4" />
+                  ) : (
+                    <ShoppingBag size={12} className="sm:size-4" />
+                  )}
                 </div>
                 <div>
-                  <p className="text-sm font-medium">{transaction.category}</p>
-                  <p className="text-xs text-gray-500">{transaction.date}</p>
+                  <p className="text-xs sm:text-sm font-medium">{transaction.category}</p>
+                  <p className="text-xxs sm:text-xs text-gray-500">{transaction.date}</p>
                 </div>
               </div>
-              <p className="text-sm font-medium">
+              <p className="text-xs sm:text-sm font-medium">
                 {formatCurrency(transaction.amount)}
               </p>
             </div>

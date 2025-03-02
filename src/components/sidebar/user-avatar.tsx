@@ -1,4 +1,3 @@
-// src/components/sidebar/user-avatar.tsx
 import { FC } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -6,25 +5,29 @@ interface UserAvatarProps {
   src?: string;
   name?: string;
   role?: string;
+  condensed?: boolean;
 }
 
 const UserAvatar: FC<UserAvatarProps> = ({
   src = '',
-  name = 'Your Name',
+  name = 'Gordon Hampton',
   role = 'Designer',
+  condensed = false,
 }) => {
   return (
-    <div className="flex flex-col items-center space-y-2">
-      <Avatar className="w-24 h-24">
+    <div className={`flex ${condensed ? 'flex-col items-center' : 'items-center space-x-3'}`}>
+      <Avatar className={condensed ? 'w-10 h-10' : 'w-16 h-16'}>
         <AvatarImage src={src} alt={name} />
-        <AvatarFallback className="text-lg font-bold">
+        <AvatarFallback>
           {name.split(' ').map(n => n[0]).join('')}
         </AvatarFallback>
       </Avatar>
-      <div className="text-center">
-        <p className="text-sm font-medium">{name}</p>
-        <p className="text-xs text-gray-500">{role}</p>
-      </div>
+      {!condensed && (
+        <div>
+          <p className="text-sm font-medium">{name}</p>
+          <p className="text-xs text-gray-500">{role}</p>
+        </div>
+      )}
     </div>
   );
 };

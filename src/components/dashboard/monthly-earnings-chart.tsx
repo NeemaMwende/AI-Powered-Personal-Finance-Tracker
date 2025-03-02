@@ -1,7 +1,5 @@
-// src/components/dashboard/monthly-earnings-chart.tsx
-'use client';
-
-import { FC } from 'react';
+"use client"
+import { FC, useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Line } from 'react-chartjs-2';
 import {
@@ -14,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { TooltipItem } from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -38,7 +37,7 @@ const MonthlyEarningsChart: FC<MonthlyEarningsChartProps> = ({
     values: [3000, 3500, 3200, 4000, 3800, 4200, 4100, 3900, 4300],
   },
 }) => {
-  const chartData = {
+  const [chartData, setChartData] = useState(() => ({
     labels: data.labels,
     datasets: [
       {
@@ -51,7 +50,52 @@ const MonthlyEarningsChart: FC<MonthlyEarningsChartProps> = ({
         pointHoverRadius: 4,
       },
     ],
-  };
+  }));
+
+  // Memoize handleResize so it doesn't change on each render
+  const handleResize = useCallback(() => {
+    const isMobile = window.innerWidth < 640;
+    if (isMobile && data.labels.length > 6) {
+      const mobileLabels = data.labels.filter((_, index) => index % 2 === 0);
+      const mobileValues = data.values.filter((_, index) => index % 2 === 0);
+      
+      setChartData((prev) => {
+        if (JSON.stringify(prev.labels) !== JSON.stringify(mobileLabels)) {
+          return {
+            labels: mobileLabels,
+            datasets: [
+              {
+                ...prev.datasets[0],
+                data: mobileValues,
+              },
+            ],
+          };
+        }
+        return prev;
+      });
+    } else {
+      setChartData((prev) => {
+        if (JSON.stringify(prev.labels) !== JSON.stringify(data.labels)) {
+          return {
+            labels: data.labels,
+            datasets: [
+              {
+                ...prev.datasets[0],
+                data: data.values,
+              },
+            ],
+          };
+        }
+        return prev;
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    handleResize(); // Run once on mount
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   const options = {
     responsive: true,
@@ -61,14 +105,35 @@ const MonthlyEarningsChart: FC<MonthlyEarningsChartProps> = ({
         display: false,
       },
       tooltip: {
-        mode: 'index',
+        mode: 'index' as const,
         intersect: false,
+        callbacks: {
+          title: (tooltipItems: TooltipItem<'line'>[]) => {
+            return tooltipItems[0].label;
+          },
+          label: (context: TooltipItem<'line'>) => {
+            const value = context.raw as number;
+            return `$${value.toLocaleString()}`;
+          },
+        },
+        padding: 8,
+        titleFont: {
+          size: 12,
+        },
+        bodyFont: {
+          size: 12,
+        },
       },
     },
     scales: {
       x: {
         grid: {
           display: false,
+        },
+        ticks: {
+          font: {
+            size: 10,
+          },
         },
       },
       y: {
@@ -79,11 +144,11 @@ const MonthlyEarningsChart: FC<MonthlyEarningsChartProps> = ({
 
   return (
     <Card className="h-full">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">Monthly earnings</CardTitle>
+      <CardHeader className="pb-0 px-4 py-3 md:px-6 md:py-4">
+        <CardTitle className="text-xs sm:text-sm font-medium">Monthly earnings</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="h-32">
+      <CardContent className="p-4 md:p-6 pt-2 md:pt-3">
+        <div className="h-24 sm:h-28 md:h-32">
           <Line data={chartData} options={options} />
         </div>
       </CardContent>

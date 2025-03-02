@@ -21,17 +21,19 @@ const PayablesList: FC<PayablesListProps> = ({
 }) => {
   return (
     <Card className="h-full">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">Payables</CardTitle>
+      <CardHeader className="pb-0 px-4 py-3 md:px-6 md:py-4">
+        <CardTitle className="text-xs sm:text-sm font-medium">Payables</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
+      <CardContent className="p-4 md:p-6 pt-2 md:pt-3">
+        <div className="space-y-2 sm:space-y-3">
           {payables.map((payable) => (
             <div key={payable.id} className="flex items-center justify-between">
-              <div className="w-4 h-4 border border-gray-300 rounded-sm" />
-              <div className="flex-1 ml-3">
-                <p className="text-sm font-medium">{formatCurrency(payable.amount)}</p>
-                <p className="text-xs text-gray-500">{payable.description}</p>
+              <div className="w-3 h-3 sm:w-4 sm:h-4 border border-gray-300 rounded-sm" />
+              <div className="flex-1 ml-2 sm:ml-3">
+                <p className="text-xs sm:text-sm font-medium">{formatCurrency(payable.amount)}</p>
+                <p className="text-xxs sm:text-xs text-gray-500 truncate max-w-32 sm:max-w-full">
+                  {payable.description}
+                </p>
               </div>
             </div>
           ))}

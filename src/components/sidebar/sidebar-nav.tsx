@@ -6,7 +6,11 @@ import { usePathname } from 'next/navigation';
 import SidebarItem from './sidebar-item';
 import { LayoutDashboard, Wallet, Receipt, BarChart2, Settings, HelpCircle } from 'lucide-react';
 
-const SidebarNav: FC = () => {
+interface SidebarNavProps {
+  condensed?: boolean;
+}
+
+const SidebarNav: FC<SidebarNavProps> = ({ condensed = false }) => {
   const pathname = usePathname();
   
   const routes = [
@@ -48,8 +52,9 @@ const SidebarNav: FC = () => {
         <SidebarItem
           key={route.href}
           icon={route.icon}
-          label={route.label}
+          label={condensed ? '' : route.label}
           href={route.href}
+          condensed={condensed}
           isActive={pathname === route.href}
         />
       ))}
