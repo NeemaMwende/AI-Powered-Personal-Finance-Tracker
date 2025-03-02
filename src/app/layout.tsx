@@ -1,7 +1,7 @@
 // src/app/layout.tsx
 import { FC, ReactNode } from 'react';
 import Sidebar from '@/components/sidebar/sidebar';
-import '../styles/globals.css';
+import './globals.css';
 
 interface RootLayoutProps {
   children: ReactNode;

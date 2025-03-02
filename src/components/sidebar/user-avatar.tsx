@@ -10,18 +10,18 @@ interface UserAvatarProps {
 
 const UserAvatar: FC<UserAvatarProps> = ({
   src = '',
-  name = 'Gordon Hampton',
+  name = 'Your Name',
   role = 'Designer',
 }) => {
   return (
-    <div className="flex items-center space-x-3">
-      <Avatar>
+    <div className="flex flex-col items-center space-y-2">
+      <Avatar className="w-20 h-20">
         <AvatarImage src={src} alt={name} />
-        <AvatarFallback>
+        <AvatarFallback className="text-lg font-bold">
           {name.split(' ').map(n => n[0]).join('')}
         </AvatarFallback>
       </Avatar>
-      <div>
+      <div className="text-center">
         <p className="text-sm font-medium">{name}</p>
         <p className="text-xs text-gray-500">{role}</p>
       </div>
