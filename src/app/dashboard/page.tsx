@@ -17,8 +17,8 @@ export default function DashboardPage() {
       </div>
       
       <Suspense fallback={<DashboardSkeleton />}>
-        <div className="grid grid-cols-3 gap-6">
-          <div className="col-span-1">
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-4">
             <BalanceCard
               totalBalance={4523.98}
               income={3150.50}
@@ -27,14 +27,53 @@ export default function DashboardPage() {
             />
           </div>
           
-          <div className="col-span-2 grid grid-cols-2 gap-6">
-            <MonthlyEarningsChart />
-            <EarningsDonutChart earnings={4423.98} />
-            
+          <div className="col-span-8">
+            <div className="grid grid-cols-12 gap-6 h-full">
+             
+              <div className="col-span-8">
+                <div className="flex flex-col h-full">
+                  <h3 className="text-sm font-medium mb-1">Balance</h3>
+                  <div className="bg-white rounded-md shadow-sm p-4 flex-grow flex flex-col">
+                    <div className="text-2xl font-bold">${4523.98}</div>
+                    <div className="grid grid-cols-2 gap-4 mt-2">
+                      <div>
+                        <p className="text-xs text-gray-500">Income</p>
+                        <p className="text-sm font-medium text-green-500">${3150.50}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">Expenses</p>
+                        <p className="text-sm font-medium text-red-500">${1373.48}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="col-span-4">
+                <div className="flex flex-col h-full">
+                  <h3 className="text-sm font-medium mb-1">Payable Accounts</h3>
+                  <div className="bg-white rounded-md shadow-sm p-4 flex-grow">
+                    <PayableAccounts current={14} total={19} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="col-span-12">
             <TransactionsList />
-            
-            <div className="space-y-6">
-              <PayableAccounts current={14} total={19} />
+          </div>
+          
+          <div className="col-span-4">
+            <MonthlyEarningsChart />
+          </div>
+          
+          <div className="col-span-4">
+            <EarningsDonutChart earnings={4423.98} />
+          </div>
+          
+          <div className="col-span-4">
+            <div className="grid grid-rows-2 gap-6 h-full">
               <ReceiptsList />
               <PayablesList />
             </div>
