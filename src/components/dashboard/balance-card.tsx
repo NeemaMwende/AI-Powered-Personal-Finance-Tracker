@@ -5,8 +5,8 @@ import Image from 'next/image';
 
 interface BalanceCardProps {
   totalBalance: number;
-  // income: number;
-  // expenses: number;
+  income?: number;
+  expenses?: number;
   cardNumber?: string;
   cardHolder?: string;
 }
