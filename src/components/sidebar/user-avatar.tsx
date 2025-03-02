@@ -15,7 +15,7 @@ const UserAvatar: FC<UserAvatarProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center space-y-2">
-      <Avatar className="w-20 h-20">
+      <Avatar className="w-24 h-24">
         <AvatarImage src={src} alt={name} />
         <AvatarFallback className="text-lg font-bold">
           {name.split(' ').map(n => n[0]).join('')}
