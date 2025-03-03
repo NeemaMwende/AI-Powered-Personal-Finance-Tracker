@@ -29,14 +29,11 @@ const UserContext = createContext<{ user: User; setUser: (user: User) => void }>
   setUser: () => {},
 });
 
-// Provider Component
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User>(defaultUser);
 
-  // Simulate fetching user data (Replace with real API call)
   useEffect(() => {
     const fetchUserData = async () => {
-      // Example: Replace this with API call
       const response = await fetch("/api/user");
       const data = await response.json();
       setUser(data);
@@ -48,5 +45,4 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 
-// Custom Hook for easy access
 export const useUser = () => useContext(UserContext);

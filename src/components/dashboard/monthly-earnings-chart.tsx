@@ -12,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { TooltipItem } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -92,12 +92,13 @@ const MonthlyEarningsChart: FC<MonthlyEarningsChartProps> = ({
   }, [data]);
 
   useEffect(() => {
-    handleResize(); // Run once on mount
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
-  const options = {
+
+  const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -105,13 +106,11 @@ const MonthlyEarningsChart: FC<MonthlyEarningsChartProps> = ({
         display: false,
       },
       tooltip: {
-        mode: 'index' as const,
+        mode: 'index',
         intersect: false,
         callbacks: {
-          title: (tooltipItems: TooltipItem<'line'>[]) => {
-            return tooltipItems[0].label;
-          },
-          label: (context: TooltipItem<'line'>) => {
+          title: (tooltipItems) => tooltipItems[0].label,
+          label: (context) => {
             const value = context.raw as number;
             return `$${value.toLocaleString()}`;
           },
@@ -127,20 +126,13 @@ const MonthlyEarningsChart: FC<MonthlyEarningsChartProps> = ({
     },
     scales: {
       x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 10,
-          },
-        },
+        grid: { display: false },
+        ticks: { font: { size: 10 } },
       },
-      y: {
-        display: false,
-      },
+      y: { display: false },
     },
   };
+  
 
   return (
     <Card className="h-full">
