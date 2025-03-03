@@ -79,11 +79,18 @@ const SettingsPage: React.FC = () => {
       <h1 className="text-3xl font-bold mb-6">Settings</h1>
       
       <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="mb-6">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-        </TabsList>
+      <TabsList className="mb-6 flex w-full">
+        <TabsTrigger value="profile" className="flex-1">
+          Profile
+        </TabsTrigger>
+        <TabsTrigger value="password" className="flex-1">
+          Password
+        </TabsTrigger>
+        <TabsTrigger value="notifications" className="flex-1">
+          Notifications
+        </TabsTrigger>
+      </TabsList>
+
         
         <TabsContent value="profile">
           <Card>
