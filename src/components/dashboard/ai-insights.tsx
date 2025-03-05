@@ -1,7 +1,4 @@
-// src/components/dashboard/ai-insights.tsx
-'use client';
-
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, RefreshCw } from 'lucide-react';
@@ -11,13 +8,11 @@ interface AIInsightsProps {
   transactions?: unknown[];
 }
 
-const AIInsights: FC<AIInsightsProps> = ({ 
-  transactions = [] 
-}) => {
+const AIInsights: FC<AIInsightsProps> = ({ transactions = [] }) => {
   const [insights, setInsights] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchInsights = async () => {
+  const fetchInsights = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch('/api/ai/insights', {
@@ -27,9 +22,9 @@ const AIInsights: FC<AIInsightsProps> = ({
         },
         body: JSON.stringify({ transactions }),
       });
-      
+
       if (!response.ok) throw new Error('Failed to fetch insights');
-      
+
       const data = await response.json();
       setInsights(data.insights);
     } catch (error) {
@@ -37,13 +32,13 @@ const AIInsights: FC<AIInsightsProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [transactions]);
 
   useEffect(() => {
     if (transactions.length > 0) {
       fetchInsights();
     }
-  }, [transactions]);
+  }, [transactions, fetchInsights]); 
 
   return (
     <Card className="h-full">
